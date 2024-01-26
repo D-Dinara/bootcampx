@@ -1,12 +1,4 @@
-const { Pool } = require('pg');
-
-const pool = new Pool({
-  user: 'vagrant',
-  password: '123',
-  host: 'localhost',
-  database: 'bootcampx'
-});
-
+const db = require('./indexDB');
 
 const queryString = `
 SELECT DISTINCT teachers.name as teacher, cohorts.name as cohort
@@ -21,7 +13,7 @@ ORDER BY teacher;
 const cohortName = process.argv[2] || 'JUL02';
 const values =  [cohortName];
 
-pool.query(queryString, values)
+db.query(queryString, values)
   .then(res => {
     res.rows.forEach(data => {
       console.log(`${data.cohort}: ${data.teacher}`);
